@@ -1,41 +1,35 @@
 <h1>AbiPool</h1>
-<br>Hier wird der Code für die kommende Website entwickelt</br>
+<br><i>Hier wird der Code für die kommende Website entwickelt</i></br>
 <br>
 
 <h2>Installation</h2>
-<p>DU hast den MYSQL server installiert. Du musst nun die sql struktur importieren. Das sieht man in PHPMYADMIN WIE MAN DAS MACHT, bekommt man hin :D
-<br>Der FILE liegt hier: <pre>sql/abipool.sql</pre>
 
-<br>Der nächste wichtige Schritt ist es den FILE <pre>php/connection.php</pre> so anzupassen dass er mit deiner Datenbank übereinstimmt
 
-<br>
+<br>Der nächste wichtige Schritt ist es den File <pre>php/connection.php</pre> so anzupassen dass er mit deiner Datenbank übereinstimmt.
 
-<h3>Hier musst du deine Server daten und einen Login auswählen</h3>
 
-<h2>SQL BEFEHL EINFACH BEI PHP-MY ADMIN REINHAUEN (**username** ersetzen)</h2>
+<br>Mit diesme Befehl kann man einen User erstellen mit dem namen 'webpool' und dem Passwort 'webpool'.
 <pre>
-GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO '**username**'@'localhost' IDENTIFIED BY PASSWORD '*FE773F4C77B9CA5700D568F226A78522FC6388EF';
-
+GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO 'webpool'@'localhost' IDENTIFIED BY PASSWORD '*FE773F4C77B9CA5700D568F226A78522FC6388EF';
 </pre>
-<br>
-Das Passwort ist dann: webpool
-<br>
-<code>
+
+<br> Die dazugehörende Konfiguration entspricht der Standart-Konfiguration:
+
+<pre>
 <?php
 	$connection_err = false;
 	error_reporting(E_ERROR); 	
 	$verbindung = mysql_connect("localhost", "webpool","webpool") or ($connection_err = true) ;
 ?>
+</pre>
 
-</code>
+<br>Bei fragen einfach an mich wenden 
 
-<br>
-<p> Bei fragen einfach an mich wenden :D
 
-Julius
 
 <pre>
 Team GBS,
 für Leonardo,
 2015
+
 </pre>
