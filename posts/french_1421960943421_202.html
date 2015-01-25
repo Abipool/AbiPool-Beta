@@ -1,0 +1,202 @@
+<!doctype html>
+<h1>Französisch</h1>
+<br>
+Hier könnte man wahrscheinlich ganz viel geistreiche scheiße schreiben aber ich habe einfahch keine lust
+
+<br> mit <<code>br</code>> kann man Zeilen umbrechen
+
+<br>
+
+<code>
+  using UnityEngine;
+using System.Net;
+using System.IO;
+using System.Net.Sockets;
+using System.Collections;
+using System.Threading;
+using System;
+
+
+public class sendcoord : MonoBehaviour {
+public bool connected = false;
+public string name;
+public string myid;
+public Vector3 oldpos;
+public Vector3 newpos ;
+public Transform  objectob;
+public static bool receiving = false;
+public  GameObject  objectob1;
+public  GameObject  objectob2;
+public  GameObject  objectob3 ;
+public  GameObject  objectob4;
+public static string mycount;
+public NetworkStream stream ;
+public static StreamReader streamr ;
+public static StreamWriter streamw ;
+public static string message;
+public	TcpClient  client;
+public Thread newThread = new Thread(Listen);
+public int smooth = 5;
+	public int speed =1;
+	public float StartTime;
+	public float Lenght;
+	
+	// Use this for initialization
+	void Start () {
+
+		
+		
+		try {
+		client = new TcpClient();
+	    client.Connect (IPAddress.Parse ("127.0.0.1"), 25000);
+		connected = true;
+		stream =  client.GetStream();
+		streamr = new StreamReader(stream);
+	    streamw = new StreamWriter(stream);
+		streamw.Write ("connect");
+		streamw.Flush ();
+		newThread.Start ();
+		} 
+		catch(Exception ex)
+		{
+			connected = false;
+		Destroy (this);
+	
+		}
+		//client.Close ();
+	//	message = streamr.ReadLine ();
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+     if(connected==true){
+			
+			streamw.WriteLine (name + ":" + objectob.localPosition.x + ":" +objectob.localPosition.y + ":" +objectob.localPosition.z + ":" + Time.time);
+			streamw.Flush ();
+     if(receiving ==true){
+				analyze();
+			}
+			
+			//client.Close();
+		}
+	}
+	
+	
+	
+	
+	
+     void OnGUI(){
+	GUILayout.Label(message);
+		
+	}
+	
+	public void analyze(){
+		string [] split = message.Split (new Char[] {':'});
+				if(split[0]==mycount){
+					
+					
+				
+				}else{
+					
+			        if(split[0]=="1"){
+				    oldpos = objectob1.transform.localPosition;
+					newpos = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+				    Lenght = Vector3.Distance (oldpos, newpos);
+				
+				    StartTime = float.Parse (split[4]);
+				   float distcovered = (Time.time - StartTime)*speed;
+				   float fraclenght = distcovered/Lenght;
+				   Debug.Log (fraclenght);
+				  objectob1.transform.position = Vector3.Lerp (oldpos,newpos,Time.deltaTime * 2);
+				
+					}	
+					if(split[0]=="2"){
+				oldpos = objectob1.transform.localPosition;
+					newpos = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+				    Lenght = Vector3.Distance (oldpos, newpos);
+				
+				    StartTime = float.Parse (split[4]);
+				   float distcovered = (Time.time - StartTime)*speed;
+				   float fraclenght = distcovered/Lenght;
+				   Debug.Log (fraclenght);
+				  objectob2.transform.position = Vector3.Lerp (oldpos,newpos,Time.deltaTime * 2);
+					
+					}	
+					if(split[0]=="3"){
+				oldpos = objectob1.transform.localPosition;
+					newpos = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+				    Lenght = Vector3.Distance (oldpos, newpos);
+				
+				    StartTime = float.Parse (split[4]);
+				   float distcovered = (Time.time - StartTime)*speed;
+				   float fraclenght = distcovered/Lenght;
+				   Debug.Log (fraclenght);
+				  objectob3.transform.position = Vector3.Lerp (oldpos,newpos,Time.deltaTime * 2);
+					
+					}	
+					if(split[0]=="4"){
+				oldpos = objectob1.transform.localPosition;
+					newpos = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+				    Lenght = Vector3.Distance (oldpos, newpos);
+				
+				    StartTime = float.Parse (split[4]);
+				   float distcovered = (Time.time - StartTime)*speed;
+				   float fraclenght = distcovered/Lenght;
+				   Debug.Log (fraclenght);
+				  objectob4.transform.position = Vector3.Lerp (oldpos,newpos,Time.deltaTime * 2);
+					}
+				}
+	}
+	
+	
+	public static void Listen(){
+		do
+			{
+			try 
+			{
+				message = streamr.ReadLine ();
+				receiving = true;
+		
+			//	string [] split = message.Split (new Char[] {':'});
+				string [] split = message.Split (new Char[] {':'});
+			  if(split[0]=="99"){
+					mycount = split[1];
+					Debug.Log (mycount);
+				}
+			//	if(split[0]==mycount){
+			//		
+			//	}else{
+			//		
+			//		if(split[0]=="1"){
+			//			objectob1.transform.position.Set (float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+			//		}	
+			//		if(split[0]=="2"){
+			//			objectob2.transform.localPosition  = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+			//		}	
+			//		if(split[0]=="3"){
+			//			objectob3.transform.localPosition  = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+			//		}	
+			//		if(split[0]=="4"){
+			//			objectob4.transform.localPosition  = new Vector3(float.Parse (split[1]),float.Parse (split[2]),float.Parse (split[3]));
+			//			
+			//		}	
+			//	}
+				
+				
+				
+				
+			} 
+			catch(Exception ex)
+			{
+			
+			}
+			} while (true);
+	}
+	
+	void OnClose(){
+		client.Close ();
+}
+}
+  
+</code>

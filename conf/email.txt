@@ -1,0 +1,4 @@
+username:abipool
+password:abipoolbeta
+domain:web.de
+
